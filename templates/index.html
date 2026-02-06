@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Samera Architecture - Creating timeless spaces that inspire and endure">
+    <title>SAMERA | Architecture & Design Studio</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Raleway:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Turn.js for flipbook -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/turn.js/3/turn.min.js"></script>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/flipbook.css') }}">
+</head>
+<body>
+    <!-- Preloader -->
+    <div class="preloader" id="preloader">
+        <div class="preloader-content">
+            <span class="preloader-text">SAMERA</span>
+            <div class="preloader-line"></div>
+        </div>
+    </div>
+
+    <!-- Cursor -->
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-follower" id="cursor-follower"></div>
+
+    <!-- Navigation -->
+    <nav class="nav" id="nav">
+        <div class="nav-container">
+            <a href="#hero" class="nav-logo">
+                <span class="logo-text">SAMERA</span>
+                <span class="logo-subtitle">ARCHITECTURE</span>
+            </a>
+
+            <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation">
+                <span class="nav-toggle-line"></span>
+                <span class="nav-toggle-line"></span>
+            </button>
+
+            <ul class="nav-menu" id="nav-menu">
+                <li class="nav-item"><a href="#hero" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="#projects" class="nav-link">Projects</a></li>
+                <li class="nav-item"><a href="#about" class="nav-link">About</a></li>
+                <li class="nav-item"><a href="#services" class="nav-link">Services</a></li>
+                <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-bg">
+            <div class="hero-slider">
+                {% for project in projects[:3] %}
+                <div class="hero-slide {% if loop.first %}active{% endif %}" style="background-image: url('{{ project.image }}')"></div>
+                {% endfor %}
+            </div>
+            <div class="hero-overlay"></div>
+        </div>
+
+        <div class="hero-content">
+            <div class="hero-text">
+                <span class="hero-label reveal-text">Architecture & Design Studio</span>
+                <h1 class="hero-title">
+                    <span class="title-line reveal-text">Creating</span>
+                    <span class="title-line reveal-text"><em>Timeless</em> Spaces</span>
+                    <span class="title-line reveal-text">That Inspire</span>
+                </h1>
+                <p class="hero-description reveal-text">
+                    We craft extraordinary architectural experiences that seamlessly blend form, function, and emotion.
+                </p>
+                <a href="#projects" class="hero-cta reveal-text">
+                    <span>Explore Our Work</span>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" stroke-width="1.5"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+
+        <div class="hero-scroll">
+            <span>Scroll</span>
+            <div class="scroll-line"></div>
+        </div>
+
+        <div class="hero-slider-nav">
+            {% for project in projects[:3] %}
+            <button class="slider-dot {% if loop.first %}active{% endif %}" data-slide="{{ loop.index0 }}"></button>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="projects" id="projects">
+        <div class="section-header">
+            <span class="section-label reveal-text">Portfolio</span>
+            <h2 class="section-title reveal-text">Selected <em>Projects</em></h2>
+            <p class="section-description reveal-text">
+                A curated collection of our most distinguished architectural works
+            </p>
+        </div>
+
+        <div class="projects-filter">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="Residential">Residential</button>
+            <button class="filter-btn" data-filter="Commercial">Commercial</button>
+            <button class="filter-btn" data-filter="Interior">Interior</button>
+        </div>
+
+        <div class="projects-grid">
+            {% for project in projects %}
+            <article class="project-card" data-category="{{ project.category }}">
+                <div class="project-image-wrapper">
+                    <img src="{{ project.image }}" alt="{{ project.title }}" class="project-image" loading="lazy">
+                    <div class="project-overlay">
+                        <span class="project-view">View Project</span>
+                    </div>
+                </div>
+                <div class="project-info">
+                    <span class="project-category">{{ project.category }}</span>
+                    <h3 class="project-title">{{ project.title }}</h3>
+                    <div class="project-meta">
+                        <span class="project-location">{{ project.location }}</span>
+                        <span class="project-year">{{ project.year }}</span>
+                    </div>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Featured Project Section -->
+    <section class="featured" id="featured">
+        <div class="featured-container">
+            <div class="featured-image">
+                <img src="{{ projects[0].image }}" alt="{{ projects[0].title }}" loading="lazy">
+            </div>
+            <div class="featured-content">
+                <span class="featured-label reveal-text">Featured Project</span>
+                <h2 class="featured-title reveal-text">{{ projects[0].title }}</h2>
+                <p class="featured-description reveal-text">{{ projects[0].description }}</p>
+                <div class="featured-details">
+                    <div class="detail-item reveal-text">
+                        <span class="detail-label">Location</span>
+                        <span class="detail-value">{{ projects[0].location }}</span>
+                    </div>
+                    <div class="detail-item reveal-text">
+                        <span class="detail-label">Year</span>
+                        <span class="detail-value">{{ projects[0].year }}</span>
+                    </div>
+                    <div class="detail-item reveal-text">
+                        <span class="detail-label">Category</span>
+                        <span class="detail-value">{{ projects[0].category }}</span>
+                    </div>
+                </div>
+                <a href="#" class="featured-cta reveal-text">
+                    <span>View Full Project</span>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="1.5"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="about-container">
+            <div class="about-image">
+                <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800" alt="Studio Interior" loading="lazy">
+                <div class="about-image-accent"></div>
+            </div>
+            <div class="about-content">
+                <span class="section-label reveal-text">About Us</span>
+                <h2 class="about-title reveal-text">Crafting Spaces <em>Since 2010</em></h2>
+                <div class="about-text">
+                    <p class="reveal-text">
+                        SAMERA Architecture is an award-winning studio dedicated to creating exceptional spaces that transcend the ordinary. Our multidisciplinary team combines innovative design thinking with technical expertise.
+                    </p>
+                    <p class="reveal-text">
+                        We believe architecture should tell a story—one that connects people to place, past to future, and form to function. Every project is an opportunity to craft something meaningful and enduring.
+                    </p>
+                </div>
+                <div class="about-stats">
+                    <div class="stat-item reveal-text">
+                        <span class="stat-number" data-count="150">0</span>
+                        <span class="stat-label">Projects Completed</span>
+                    </div>
+                    <div class="stat-item reveal-text">
+                        <span class="stat-number" data-count="15">0</span>
+                        <span class="stat-label">Years Experience</span>
+                    </div>
+                    <div class="stat-item reveal-text">
+                        <span class="stat-number" data-count="25">0</span>
+                        <span class="stat-label">Awards Won</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <div class="section-header">
+            <span class="section-label reveal-text">What We Do</span>
+            <h2 class="section-title reveal-text">Our <em>Services</em></h2>
+        </div>
+
+        <div class="services-grid">
+            <div class="service-card reveal-text">
+                <span class="service-number">01</span>
+                <h3 class="service-title">Architecture</h3>
+                <p class="service-description">
+                    From concept to completion, we design buildings that inspire and endure. Residential, commercial, and institutional projects.
+                </p>
+                <div class="service-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                        <path d="M3 21h18M9 21V10l6-4v15M5 21V7l4 3M19 21V9l-4 3"/>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="service-card reveal-text">
+                <span class="service-number">02</span>
+                <h3 class="service-title">Interior Design</h3>
+                <p class="service-description">
+                    Creating harmonious interior spaces that reflect your vision while maximizing functionality and aesthetic appeal.
+                </p>
+                <div class="service-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                        <rect x="3" y="8" width="18" height="13" rx="1"/>
+                        <path d="M7 8V6a2 2 0 012-2h6a2 2 0 012 2v2"/>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="service-card reveal-text">
+                <span class="service-number">03</span>
+                <h3 class="service-title">Urban Planning</h3>
+                <p class="service-description">
+                    Thoughtful urban design that creates vibrant, sustainable communities and enhances quality of life.
+                </p>
+                <div class="service-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                        <rect x="4" y="10" width="6" height="11"/>
+                        <rect x="14" y="4" width="6" height="17"/>
+                        <path d="M1 21h22"/>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="service-card reveal-text">
+                <span class="service-number">04</span>
+                <h3 class="service-title">Renovation</h3>
+                <p class="service-description">
+                    Breathing new life into existing structures while preserving their character and enhancing their potential.
+                </p>
+                <div class="service-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                        <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials" id="testimonials">
+        <div class="testimonials-container">
+            <div class="testimonial-content">
+                <span class="quote-mark">"</span>
+                <blockquote class="testimonial-quote reveal-text">
+                    SAMERA transformed our vision into a living masterpiece. Their attention to detail and innovative approach exceeded all expectations.
+                </blockquote>
+                <div class="testimonial-author reveal-text">
+                    <span class="author-name">Michael & Sarah Johnson</span>
+                    <span class="author-title">Sunset Residence, Malibu</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="contact-container">
+            <div class="contact-info">
+                <span class="section-label reveal-text">Get in Touch</span>
+                <h2 class="contact-title reveal-text">Let's Create <em>Together</em></h2>
+                <p class="contact-description reveal-text">
+                    Ready to start your next project? We'd love to hear from you and discuss how we can bring your vision to life.
+                </p>
+
+                <div class="contact-details">
+                    <div class="contact-item reveal-text">
+                        <span class="contact-label">Email</span>
+                        <a href="mailto:hello@samera.com" class="contact-link">hello@samera.com</a>
+                    </div>
+                    <div class="contact-item reveal-text">
+                        <span class="contact-label">Phone</span>
+                        <a href="tel:+1234567890" class="contact-link">+1 (234) 567-890</a>
+                    </div>
+                    <div class="contact-item reveal-text">
+                        <span class="contact-label">Address</span>
+                        <address class="contact-address">
+                            123 Architecture Lane<br>
+                            Los Angeles, CA 90012
+                        </address>
+                    </div>
+                </div>
+
+                <div class="contact-social reveal-text">
+                    <a href="#" class="social-link" aria-label="Instagram">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <rect x="2" y="2" width="20" height="20" rx="5"/>
+                            <circle cx="12" cy="12" r="4"/>
+                            <circle cx="18" cy="6" r="1" fill="currentColor"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="social-link" aria-label="LinkedIn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <rect x="2" y="2" width="20" height="20" rx="3"/>
+                            <path d="M8 11v5M8 8v.01M12 16v-5c0-1 1-2 2-2s2 1 2 2v5"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="social-link" aria-label="Pinterest">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M12 6c-3.5 0-6 2.5-6 5.5 0 2 1 3.5 2.5 4.5-.3 1-.5 2.5-.5 3 0 .5.5 1 1 .5 1-.5 2-1.5 2.5-2.5.5.1 1 .2 1.5.2 3 0 5.5-2.5 5.5-5.5S15.5 6 12 6z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="social-link" aria-label="Behance">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M3 12h6c1 0 2-.5 2-2s-1-2-2-2H3v8h6c1.5 0 2.5-1 2.5-2.5S10.5 12 9 12"/>
+                            <path d="M14 10h6M17 7v6c0 2 1.5 3 3 3"/>
+                            <path d="M14 16h6"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <form class="contact-form" id="contact-form">
+                <div class="form-group reveal-text">
+                    <input type="text" id="name" name="name" required placeholder=" ">
+                    <label for="name">Your Name</label>
+                </div>
+                <div class="form-group reveal-text">
+                    <input type="email" id="email" name="email" required placeholder=" ">
+                    <label for="email">Email Address</label>
+                </div>
+                <div class="form-group reveal-text">
+                    <input type="text" id="subject" name="subject" placeholder=" ">
+                    <label for="subject">Subject</label>
+                </div>
+                <div class="form-group reveal-text">
+                    <textarea id="message" name="message" rows="4" required placeholder=" "></textarea>
+                    <label for="message">Your Message</label>
+                </div>
+                <button type="submit" class="form-submit reveal-text">
+                    <span>Send Message</span>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="1.5"/>
+                    </svg>
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <span class="footer-logo">SAMERA</span>
+                <p class="footer-tagline">Architecture & Design Studio</p>
+            </div>
+            <div class="footer-links">
+                <a href="#projects">Projects</a>
+                <a href="#about">About</a>
+                <a href="#services">Services</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <div class="footer-copyright">
+                <p>&copy; 2026 SAMERA Architecture. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Project Modal -->
+    <div class="modal" id="project-modal">
+        <div class="modal-content">
+            <button class="modal-close" aria-label="Close modal">&times;</button>
+            <div class="modal-image"></div>
+            <div class="modal-info">
+                <span class="modal-category"></span>
+                <h3 class="modal-title"></h3>
+                <p class="modal-description"></p>
+                <div class="modal-meta">
+                    <span class="modal-location"></span>
+                    <span class="modal-year"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
