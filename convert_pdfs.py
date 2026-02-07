@@ -31,12 +31,36 @@ def convert_with_pymupdf():
 
         print(f"Found {len(pdf_files)} PDF files to convert...")
 
+        # Special naming mappings for new files
+        special_mappings = {
+            'new_coverpage': 'cover_page',
+            'new_lastpage': 'lastpage',
+            'new_portfolio pg28': 'portfolio_pg28'
+        }
+
         for pdf_path in pdf_files:
             filename = os.path.basename(pdf_path)
             name_without_ext = os.path.splitext(filename)[0]
 
-            # Create output path - replace spaces with underscores, lowercase
-            output_name = name_without_ext.lower().replace(' ', '_') + '.jpg'
+            # Check for special mappings first
+            name_lower = name_without_ext.lower().replace(' ', '_')
+
+            # Handle special naming cases
+            if name_lower in special_mappings:
+                output_name = special_mappings[name_lower] + '.jpg'
+            elif 'portfolio' in name_lower and 'pg' in name_lower:
+                # Extract page number and format properly
+                import re
+                match = re.search(r'pg\s*(\d+)', name_lower)
+                if match:
+                    page_num = match.group(1)
+                    output_name = f'portfolio_pg{page_num}.jpg'
+                else:
+                    output_name = name_lower.replace(' ', '_') + '.jpg'
+            else:
+                # Default: replace spaces with underscores, lowercase
+                output_name = name_lower + '.jpg'
+
             output_path = os.path.join(images_folder, output_name)
 
             # Skip if already converted
