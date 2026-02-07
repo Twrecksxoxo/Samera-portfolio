@@ -31,11 +31,12 @@ def convert_with_pymupdf():
 
         print(f"Found {len(pdf_files)} PDF files to convert...")
 
-        # Special naming mappings for new files
+        # Special naming mappings for new files (these will force overwrite)
         special_mappings = {
             'new_coverpage': 'cover_page',
             'new_lastpage': 'lastpage',
-            'new_portfolio pg28': 'portfolio_pg28'
+            'new_portfolio_pg28': 'portfolio_pg28',
+            'recent_portfolio_pg28': 'portfolio_pg28'
         }
 
         for pdf_path in pdf_files:
@@ -44,6 +45,9 @@ def convert_with_pymupdf():
 
             # Check for special mappings first
             name_lower = name_without_ext.lower().replace(' ', '_')
+
+            # Check if this is a special file that should force overwrite
+            force_overwrite = name_lower in special_mappings
 
             # Handle special naming cases
             if name_lower in special_mappings:
@@ -63,10 +67,13 @@ def convert_with_pymupdf():
 
             output_path = os.path.join(images_folder, output_name)
 
-            # Skip if already converted
-            if os.path.exists(output_path):
+            # Skip if already converted (unless force overwrite)
+            if os.path.exists(output_path) and not force_overwrite:
                 print(f"  ✓ {output_name} already exists, skipping...")
                 continue
+
+            if force_overwrite and os.path.exists(output_path):
+                print(f"  🔄 Force updating {output_name}...")
 
             try:
                 # Open PDF
