@@ -17,6 +17,10 @@ env/
 .DS_Store
 Thumbs.db
 
+# PDF files (too large for git, we use JPG images instead)
+*.pdf
+static/images/*.pdf
+
 # Flask
 instance/
 .webassets-cache
