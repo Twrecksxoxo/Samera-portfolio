@@ -1040,7 +1040,12 @@
     </style>
 </head>
 <body>
-    <!-- No preloader - book loads directly -->
+    <!-- Preloader -->
+    <div class="preloader" id="preloader">
+        <div class="preloader-logo">Samera's Portfolio</div>
+        <div class="preloader-text">Loading...</div>
+        <div class="book-opening"></div>
+    </div>
 
     <!-- Header -->
     <header class="header">
@@ -1119,8 +1124,11 @@
 
     <script>
         $(document).ready(function() {
-            // Initialize flipbook immediately
-            initFlipbook();
+            // Hide preloader after a delay
+            setTimeout(function() {
+                $('#preloader').addClass('hidden');
+                initFlipbook();
+            }, 1500);
         });
 
         function initFlipbook() {
