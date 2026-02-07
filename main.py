@@ -1,74 +1,63 @@
 from flask import Flask, render_template, jsonify
+import os
+import re
 
 app = Flask(__name__)
 
-# Portfolio Projects Data
-projects = [
-    {
-        "id": 1,
-        "title": "Sunset Residence",
-        "category": "Residential",
-        "year": "2025",
-        "location": "Malibu, California",
-        "image": "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200",
-        "description": "A modern coastal home that seamlessly blends indoor and outdoor living spaces."
-    },
-    {
-        "id": 2,
-        "title": "Urban Loft",
-        "category": "Interior",
-        "year": "2024",
-        "location": "New York City",
-        "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200",
-        "description": "Industrial meets contemporary in this Manhattan penthouse renovation."
-    },
-    {
-        "id": 3,
-        "title": "Glass Pavilion",
-        "category": "Commercial",
-        "year": "2024",
-        "location": "Tokyo, Japan",
-        "image": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200",
-        "description": "A floating glass structure designed for art exhibitions and cultural events."
-    },
-    {
-        "id": 4,
-        "title": "Desert Oasis",
-        "category": "Residential",
-        "year": "2023",
-        "location": "Scottsdale, Arizona",
-        "image": "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1200",
-        "description": "Sustainable desert living with panoramic mountain views."
-    },
-    {
-        "id": 5,
-        "title": "The Cube",
-        "category": "Commercial",
-        "year": "2023",
-        "location": "Dubai, UAE",
-        "image": "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=1200",
-        "description": "A bold geometric office building redefining the Dubai skyline."
-    },
-    {
-        "id": 6,
-        "title": "Forest Retreat",
-        "category": "Residential",
-        "year": "2022",
-        "location": "Vancouver, Canada",
-        "image": "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1200",
-        "description": "A timber-clad sanctuary nestled among ancient cedars."
-    }
-]
+def get_portfolio_pages():
+    """
+    Automatically get all portfolio page images from the static/images folder.
+    Returns them sorted by page number.
+    """
+    images_folder = os.path.join(app.static_folder, 'images')
+    pages = []
+
+    # Pattern to match portfolio_pgXX.jpg files
+    pattern = re.compile(r'portfolio_pg(\d+)\.jpg', re.IGNORECASE)
+
+    if os.path.exists(images_folder):
+        for filename in os.listdir(images_folder):
+            match = pattern.match(filename)
+            if match:
+                page_number = int(match.group(1))
+                pages.append({
+                    'number': page_number,
+                    'image': f'/static/images/{filename}'
+                })
+
+    # Sort by page number
+    pages.sort(key=lambda x: x['number'])
+    return pages
 
 
 @app.route('/')
 def home():
-    return render_template('index.html', projects=projects)
+    pages = get_portfolio_pages()
+    return render_template('flipbook_3d.html', pages=pages)
 
 
-@app.route('/api/projects')
-def get_projects():
-    return jsonify(projects)
+@app.route('/classic')
+def classic():
+    pages = get_portfolio_pages()
+    return render_template('index.html', pages=pages)
+
+
+@app.route('/flipbook-old')
+def flipbook_old():
+    pages = get_portfolio_pages()
+    return render_template('flipbook.html', pages=pages)
+
+
+@app.route('/flipbook-v2')
+def flipbook_v2():
+    pages = get_portfolio_pages()
+    return render_template('flipbook_new.html', pages=pages)
+
+
+@app.route('/api/pages')
+def get_all_pages():
+    pages = get_portfolio_pages()
+    return jsonify(pages)
 
 
 if __name__ == '__main__':

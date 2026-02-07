@@ -1086,200 +1086,25 @@
         <div class="book-container">
             <div class="book-shadow"></div>
             <div id="flipbook">
-                <!-- Front Cover -->
+                <!-- Front Cover (cover_page.jpg) -->
                 <div class="page cover hard" style="padding: 0; overflow: hidden;">
                     <img src="/static/images/cover_page.jpg" alt="Portfolio Cover" style="width: 100%; height: 100%; object-fit: cover;">
                 </div>
 
-                <!-- Inside Front Cover (blank or could have content) -->
-                <div class="page even">
-                    <div class="page-content" style="align-items: center; justify-content: center;">
-                        <div style="text-align: center; opacity: 0.5;">
-                            <p style="font-family: var(--font-display); font-size: 1rem; font-style: italic; color: var(--color-text-light);">
-                                "Architecture is the thoughtful making of space."
-                            </p>
-                            <p style="font-size: 0.7rem; margin-top: 1rem; letter-spacing: 0.2em; color: var(--color-accent);">
-                                — Louis Kahn
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Table of Contents -->
-                <div class="page odd index-page" style="padding: 0; overflow: hidden;">
+                <!-- Contents Page (content_page.jpg) -->
+                <div class="page even" style="padding: 0; overflow: hidden;">
                     <img src="/static/images/content_page.jpg" alt="Contents" style="width: 100%; height: 100%; object-fit: cover;">
                 </div>
 
-                <!-- Projects Section Title -->
-                <div class="page even section-title-page">
-                    <div class="page-content">
-                        <span class="section-number">01</span>
-                        <h2 class="section-title">Projects</h2>
-                        <p class="section-subtitle">Selected Works 2022 — 2026</p>
-                    </div>
-                </div>
-
-                <!-- Project Pages -->
-                {% for project in projects %}
+                <!-- Portfolio Pages - All images from folder -->
+                {% for page in pages %}
                 <div class="page {% if loop.index % 2 == 1 %}odd{% else %}even{% endif %} project-image-page">
                     <div class="page-content">
-                        <img src="{{ project.image }}" alt="{{ project.title }}" loading="lazy">
-                    </div>
-                </div>
-                <div class="page {% if loop.index % 2 == 0 %}odd{% else %}even{% endif %} project-info-page">
-                    <div class="page-content">
-                        <span class="project-category">{{ project.category }}</span>
-                        <h3 class="project-title">{{ project.title }}</h3>
-                        <p class="project-description">{{ project.description }}</p>
-                        <div class="project-details">
-                            <div class="detail-item">
-                                <span class="detail-label">Location</span>
-                                <span class="detail-value">{{ project.location }}</span>
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">Year</span>
-                                <span class="detail-value">{{ project.year }}</span>
-                            </div>
-                        </div>
-                        <span class="page-number">{{ '%02d' % (loop.index * 2 + 3) }}</span>
+                        <img src="{{ page.image }}" alt="Portfolio Page {{ page.number }}" loading="lazy">
                     </div>
                 </div>
                 {% endfor %}
 
-                <!-- About Section -->
-                <div class="page odd section-title-page">
-                    <div class="page-content">
-                        <span class="section-number">02</span>
-                        <h2 class="section-title">About</h2>
-                        <p class="section-subtitle">Our Story & Philosophy</p>
-                    </div>
-                </div>
-
-                <div class="page even about-image-page">
-                    <div class="page-content">
-                        <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800" alt="Studio" loading="lazy">
-                    </div>
-                </div>
-
-                <div class="page odd about-page">
-                    <div class="page-content">
-                        <h2 class="about-title">Crafting Spaces <em>Since 2010</em></h2>
-                        <p class="about-text">
-                            SAMERA Architecture is an award-winning studio dedicated to creating exceptional spaces that transcend the ordinary.
-                        </p>
-                        <p class="about-text">
-                            Our multidisciplinary team combines innovative design thinking with technical expertise. We believe architecture should tell a story.
-                        </p>
-                        <div class="about-stats">
-                            <div class="stat-item">
-                                <span class="stat-number">150+</span>
-                                <span class="stat-label">Projects</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-number">15</span>
-                                <span class="stat-label">Years</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-number">25</span>
-                                <span class="stat-label">Awards</span>
-                            </div>
-                        </div>
-                        <span class="page-number">{{ '%02d' % (projects|length * 2 + 6) }}</span>
-                    </div>
-                </div>
-
-                <!-- Services -->
-                <div class="page even services-page">
-                    <div class="page-content">
-                        <h2 class="services-title">Our Services</h2>
-                        <div class="service-item">
-                            <span class="service-number">01</span>
-                            <div class="service-content">
-                                <h3>Architecture</h3>
-                                <p>From concept to completion, we design buildings that inspire and endure.</p>
-                            </div>
-                        </div>
-                        <div class="service-item">
-                            <span class="service-number">02</span>
-                            <div class="service-content">
-                                <h3>Interior Design</h3>
-                                <p>Creating harmonious interior spaces that reflect your vision.</p>
-                            </div>
-                        </div>
-                        <div class="service-item">
-                            <span class="service-number">03</span>
-                            <div class="service-content">
-                                <h3>Urban Planning</h3>
-                                <p>Thoughtful urban design that creates vibrant communities.</p>
-                            </div>
-                        </div>
-                        <div class="service-item">
-                            <span class="service-number">04</span>
-                            <div class="service-content">
-                                <h3>Renovation</h3>
-                                <p>Breathing new life into existing structures.</p>
-                            </div>
-                        </div>
-                        <span class="page-number">{{ '%02d' % (projects|length * 2 + 7) }}</span>
-                    </div>
-                </div>
-
-                <!-- Contact -->
-                <div class="page odd contact-page">
-                    <div class="page-content">
-                        <h2 class="contact-title">Get in Touch</h2>
-                        <div class="contact-item">
-                            <div class="contact-label">Email</div>
-                            <div class="contact-value">
-                                <a href="mailto:hello@samera.com">hello@samera.com</a>
-                            </div>
-                        </div>
-                        <div class="contact-item">
-                            <div class="contact-label">Phone</div>
-                            <div class="contact-value">
-                                <a href="tel:+1234567890">+1 (234) 567-890</a>
-                            </div>
-                        </div>
-                        <div class="contact-item">
-                            <div class="contact-label">Address</div>
-                            <div class="contact-value">
-                                123 Architecture Lane<br>Los Angeles, CA 90012
-                            </div>
-                        </div>
-                        <div class="social-links">
-                            <a href="#" class="social-link">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                    <rect x="2" y="2" width="20" height="20" rx="5"/>
-                                    <circle cx="12" cy="12" r="4"/>
-                                </svg>
-                            </a>
-                            <a href="#" class="social-link">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                    <rect x="2" y="2" width="20" height="20" rx="3"/>
-                                    <path d="M8 11v5M8 8v.01M12 16v-5c0-1 1-2 2-2s2 1 2 2v5"/>
-                                </svg>
-                            </a>
-                            <a href="#" class="social-link">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                    <circle cx="12" cy="12" r="10"/>
-                                    <path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
-                                </svg>
-                            </a>
-                        </div>
-                        <span class="page-number">{{ '%02d' % (projects|length * 2 + 8) }}</span>
-                    </div>
-                </div>
-
-                <!-- Inside Back Cover -->
-                <div class="page even">
-                    <div class="page-content" style="align-items: center; justify-content: center;">
-                        <div style="text-align: center; opacity: 0.4;">
-                            <p style="font-family: var(--font-display); font-size: 0.9rem; letter-spacing: 0.3em;">
-                                THANK YOU
-                            </p>
-                        </div>
-                    </div>
-                </div>
 
                 <!-- Back Cover -->
                 <div class="page back-cover hard">
