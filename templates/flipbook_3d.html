@@ -1346,40 +1346,53 @@
 
     <script>
         $(document).ready(function() {
-            // Preload all images before showing the book
-            const images = $('#flipbook img');
-            let loadedCount = 0;
-            const totalImages = images.length;
+            // Prioritize loading first few pages, then load rest in background
+            const allImages = $('#flipbook img');
+            const priorityImages = allImages.slice(0, 4); // Cover, contents, first 2 pages
+            let priorityLoaded = 0;
+            const priorityTotal = priorityImages.length;
 
-            // If no images or already cached, show quickly
-            if (totalImages === 0) {
+            // If no images, show quickly
+            if (allImages.length === 0) {
                 showBook();
                 return;
             }
 
-            // Preload each image
-            images.each(function() {
+            // Load priority images first (cover and first pages)
+            priorityImages.each(function() {
                 const img = new Image();
                 img.onload = img.onerror = function() {
-                    loadedCount++;
-                    // Update loading text with progress
-                    const percent = Math.round((loadedCount / totalImages) * 100);
+                    priorityLoaded++;
+                    const percent = Math.round((priorityLoaded / priorityTotal) * 50);
                     $('.preloader-text').text('Loading ' + percent + '%');
 
-                    // All images loaded
-                    if (loadedCount >= totalImages) {
+                    // Show book once priority images are ready
+                    if (priorityLoaded >= priorityTotal) {
+                        $('.preloader-text').text('Loading 100%');
                         showBook();
+                        // Load remaining images in background
+                        loadRemainingImages();
                     }
                 };
                 img.src = $(this).attr('src');
             });
 
-            // Fallback: show book after max 5 seconds even if images still loading
+            // Load remaining images after book is shown
+            function loadRemainingImages() {
+                const remainingImages = allImages.slice(4);
+                remainingImages.each(function() {
+                    const img = new Image();
+                    img.src = $(this).attr('src');
+                });
+            }
+
+            // Fallback: show book after max 3 seconds
             setTimeout(function() {
                 if (!$('#preloader').hasClass('hidden')) {
                     showBook();
+                    loadRemainingImages();
                 }
-            }, 5000);
+            }, 3000);
         });
 
         function showBook() {

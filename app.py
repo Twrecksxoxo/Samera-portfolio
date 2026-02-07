@@ -1,8 +1,11 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, send_from_directory
 import os
 import re
 
 app = Flask(__name__)
+
+# Enable caching for static files (1 week for images)
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 604800  # 7 days in seconds
 
 def get_portfolio_pages():
     """
