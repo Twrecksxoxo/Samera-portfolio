@@ -52,24 +52,77 @@ git push -u origin main
 
 ---
 
-## STEP 2: Deploy to Render.com (RECOMMENDED - FREE)
+## ⭐ STEP 2: Deploy to Vercel (RECOMMENDED - EASIEST & FREE)
+
+Vercel is the easiest and fastest way to deploy your portfolio!
+
+### 2.1 Create Vercel Account
+
+1. Go to https://vercel.com
+2. Click **Sign Up**
+3. **Sign up with GitHub** (this makes deployment super easy!)
+
+### 2.2 Import Your Project
+
+1. After logging in, click **Add New...** → **Project**
+2. Find your `Samera-portfolio` repository in the list
+3. Click **Import**
+
+### 2.3 Configure Project Settings
+
+| Setting | Value |
+|---------|-------|
+| **Framework Preset** | `Other` |
+| **Root Directory** | `.` (leave as default) |
+| **Build Command** | Leave empty |
+| **Output Directory** | Leave empty |
+| **Install Command** | `pip install -r requirements.txt` |
+
+### 2.4 Deploy!
+
+1. Click **Deploy**
+2. Wait 1-2 minutes for deployment
+3. 🎉 Your site will be live at: `https://samera-portfolio.vercel.app`
+
+### 2.5 Custom Domain (Optional)
+
+1. Go to your project dashboard on Vercel
+2. Click **Settings** → **Domains**
+3. Add your custom domain (e.g., `sameraportfolio.com`)
+4. Follow Vercel's instructions to configure DNS
+
+### 2.6 Auto-Deploy on Changes
+
+Vercel automatically deploys whenever you push to GitHub:
+
+```powershell
+git add .
+git commit -m "Updated portfolio"
+git push
+```
+
+That's it! Your changes will be live in ~1 minute.
+
+---
+
+## ALTERNATIVE: Deploy to Render.com (FREE)
 
 Render is the easiest free hosting platform for Flask apps.
 
-### 2.1 Create Render Account
+### 3.1 Create Render Account
 
 1. Go to https://render.com
 2. Click **Get Started for Free**
 3. Sign up with your **GitHub account** (easiest option)
 
-### 2.2 Create New Web Service
+### 3.2 Create New Web Service
 
 1. From Render dashboard, click **New +** → **Web Service**
 2. Connect your GitHub account if not already connected
 3. Find and select your `architect-portfolio` repository
 4. Click **Connect**
 
-### 2.3 Configure Your Service
+### 3.3 Configure Your Service
 
 Fill in the settings:
 
@@ -83,7 +136,7 @@ Fill in the settings:
 | **Start Command** | `gunicorn main:app` |
 | **Instance Type** | `Free` |
 
-### 2.4 Deploy!
+### 3.4 Deploy!
 
 1. Click **Create Web Service**
 2. Wait 2-5 minutes for deployment
@@ -97,13 +150,13 @@ Fill in the settings:
 
 Good option if Render doesn't work for you.
 
-### 3.1 Create Account
+### 4.1 Create Account
 
 1. Go to https://www.pythonanywhere.com
 2. Click **Pricing & signup** → **Create a Beginner account** (FREE)
 3. Choose a username (this will be in your URL)
 
-### 3.2 Upload Your Files
+### 4.2 Upload Your Files
 
 **Option A: Using Git (Recommended)**
 
@@ -119,7 +172,7 @@ Good option if Render doesn't work for you.
 2. Create folder: `architect-portfolio`
 3. Upload all your files manually
 
-### 3.3 Create Virtual Environment
+### 4.3 Create Virtual Environment
 
 In the Bash console:
 ```bash
@@ -128,7 +181,7 @@ mkvirtualenv --python=/usr/bin/python3.10 portfolioenv
 pip install -r requirements.txt
 ```
 
-### 3.4 Configure Web App
+### 4.4 Configure Web App
 
 1. Go to **Web** tab
 2. Click **Add a new web app**
@@ -154,7 +207,7 @@ from main import app as application
 
 6. Click **Reload** (green button)
 
-### 3.5 Your Site is Live!
+### 4.5 Your Site is Live!
 
 Visit: `https://YOUR_USERNAME.pythonanywhere.com`
 
@@ -162,12 +215,12 @@ Visit: `https://YOUR_USERNAME.pythonanywhere.com`
 
 ## ALTERNATIVE: Deploy to Railway.app (FREE TIER)
 
-### 4.1 Create Account
+### 5.1 Create Account
 
 1. Go to https://railway.app
 2. Sign up with GitHub
 
-### 4.2 Deploy
+### 5.2 Deploy
 
 1. Click **New Project**
 2. Select **Deploy from GitHub repo**
@@ -177,26 +230,6 @@ Visit: `https://YOUR_USERNAME.pythonanywhere.com`
 
 ---
 
-## 🌐 CUSTOM DOMAIN (Optional)
-
-Want `www.yourname.com` instead of `yourname.onrender.com`?
-
-### Buy a Domain
-
-- Namecheap: https://namecheap.com (~$10/year)
-- Google Domains: https://domains.google (~$12/year)
-- GoDaddy: https://godaddy.com
-
-### Connect to Render
-
-1. In Render dashboard, go to your service
-2. Click **Settings** → **Custom Domains**
-3. Add your domain (e.g., `www.yourportfolio.com`)
-4. Copy the CNAME record provided
-5. Go to your domain registrar's DNS settings
-6. Add a CNAME record pointing to Render
-
----
 
 ## 🔄 UPDATING YOUR SITE
 
